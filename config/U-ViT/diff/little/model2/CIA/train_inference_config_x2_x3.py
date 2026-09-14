@@ -72,7 +72,7 @@ model = Diffusion(
     mode="x2+x3",
 )
 
-checkpoint_path = "results/U-ViT/diff/model3/CIA/results_x2_x3/checkpoints/model_epoch_5999.pth"
+checkpoint_path = "/home/zhaojiazhen/workspace/STF/STF/results/U-ViT/diff/model3/CIA/results_x2_x3/checkpoints/model_epoch_5999.pth"
 
 metric_list = [
     RMSE(),

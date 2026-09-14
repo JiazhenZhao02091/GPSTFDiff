@@ -13,7 +13,7 @@ from ema_pytorch import EMA
 import time
 
 """
-    * 和LapSTFDiff_lap_inferencer一样，都是多阶段切换的推理过程
+    * 和GPSTFDiff_lap_inferencer一样，都是多阶段切换的推理过程
 """
 
 class Inferencer:

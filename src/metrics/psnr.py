@@ -32,6 +32,8 @@ class PeakSignalNoiseRatio(nn.Module):
              # 处理 Mask
              if mask.dim() == 3:
                 mask = mask.unsqueeze(1)
+             if mask.shape[1] == 1 and gt.shape[1] != 1:
+                mask = mask.expand(-1, gt.shape[1], -1, -1)
              valid_mask = mask > 0
              
              # 获取有效像素的差异

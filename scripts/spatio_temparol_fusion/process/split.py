@@ -277,8 +277,8 @@ if __name__ == '__main__':
 
 
 # python -m scripts.spatio_temparol_fusion.process.split \
-#   --root_path data/spatio_temporal_fusion/McLean/raw_data \
+#   --root_path /mnt/data1/zsh/workspace/stf/data/spatio_temporal_fusion/McLean/raw_data \
 #   --src_data_prefix CDL \
-#   --tar_data_prefix data/spatio_temporal_fusion/McLean/raw_data/split_size_{}_stride_{} \
+#   --tar_data_prefix /mnt/data1/zsh/workspace/stf/data/spatio_temporal_fusion/McLean/raw_data/split_size_{}_stride_{} \
 #   --img_patch_size 256 \
 #   --stride 128 \

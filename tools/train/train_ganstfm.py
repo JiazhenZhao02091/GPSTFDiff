@@ -1,13 +1,14 @@
 # python tools/train/train_ganstfm.py --congfig_path config/ganstfm/syy_setting-9/CIA/Adam_2e-4.py
 # python tools/train/train_ganstfm.py --congfig_path config/ganstfm/syy_setting-9/LGC/Adam_2e-4.py
 # python tools/train/train_ganstfm.py --congfig_path config/ganstfm/STIL/Adam_1e-4.py
+# CUDA_VISIBLE_DEVICES = "0" python tools/train/train_ganstfm.py --congfig_path config/ganstfm/test_setting-9/ML/Adam_1e-4.py
 
 # modify
 # python tools/train/train_ganstfm.py --congfig_path config/ganstfm/syy_setting-9/CIA/Adam_1e-4.py
 
 import os
 
-# os.environ['CUDA_VISIBLE_DEVICES'] = '2'
+# os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 os.environ['OMP_NUM_THREADS'] = '1'
 
 import argparse

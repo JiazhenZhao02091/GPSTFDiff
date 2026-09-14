@@ -32,6 +32,8 @@ class MeanAbsoluteError(nn.Module):
             # 扩展 mask 维度以匹配输入 (假设 mask 是 Bx1xHxW 或 BxCxHxW)
             if mask.dim() == 3: 
                 mask = mask.unsqueeze(1)
+            if mask.shape[1] == 1 and gt.shape[1] != 1:
+                mask = mask.expand(-1, gt.shape[1], -1, -1)
             
             # 确保 mask 为布尔类型或 0/1
             valid_mask = mask > 0

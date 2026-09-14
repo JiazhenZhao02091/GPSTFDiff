@@ -2,7 +2,7 @@ import torch
 import optuna
 from tqdm import tqdm
 from src.model.Laplasi.Four_stages_diffusion_inferencer import Diffusion
-from src.model.LapSTFDiff import PredNoiseNetMKIRA_forward
+from src.model.GPSTFDiff import PredNoiseNetMKIRA_forward
 from src.data.dataloader.data_sampler import EpochBasedSampler
 from src.data.dataloader.worker_init import worker_init_fn
 from functools import partial
@@ -27,10 +27,10 @@ diffusion_model = Diffusion(
     sampling_timesteps=100,
 )
 
-checkpoint_path_x4          = "results_backup/LapSTFDiff/syy_setting-9/CIA/results_MKIRA_mult_4_dim_128/checkpoints/best_model_epoch_149.pth"
-checkpoint_path_x3_x4       = "results_backup/LapSTFDiff/syy_setting-9/CIA/results_MKIRA_mult_4_dim_128/checkpoints/best_model_epoch_149.pth"
-checkpoint_path_x2_x3_x4    = "results_backup/LapSTFDiff/syy_setting-9/CIA/results_MKIRA_mult_4_dim_128/checkpoints/best_model_epoch_149.pth"
-checkpoint_path_x1_x2_x3_x4 = "results_backup/LapSTFDiff/syy_setting-9/CIA/results_MKIRA_mult_4_dim_128/checkpoints/best_model_epoch_149.pth"
+checkpoint_path_x4          = "/home/zhaojiazhen/workspace/STF/STF/results_backup/GPSTFDiff/syy_setting-9/CIA/results_MKIRA_mult_4_dim_128/checkpoints/best_model_epoch_149.pth"
+checkpoint_path_x3_x4       = "/home/zhaojiazhen/workspace/STF/STF/results_backup/GPSTFDiff/syy_setting-9/CIA/results_MKIRA_mult_4_dim_128/checkpoints/best_model_epoch_149.pth"
+checkpoint_path_x2_x3_x4    = "/home/zhaojiazhen/workspace/STF/STF/results_backup/GPSTFDiff/syy_setting-9/CIA/results_MKIRA_mult_4_dim_128/checkpoints/best_model_epoch_149.pth"
+checkpoint_path_x1_x2_x3_x4 = "/home/zhaojiazhen/workspace/STF/STF/results_backup/GPSTFDiff/syy_setting-9/CIA/results_MKIRA_mult_4_dim_128/checkpoints/best_model_epoch_149.pth"
 
 def get_model_ema_dict(checkpoint_path):
     print(f"Loading checkpoint: {checkpoint_path}")

@@ -1,5 +1,5 @@
-# CUDA_VISIBLE_DEVICES="4" python tools/train/train_LapSTFDiff.py --congfig_path config/LapSTFDiff/syy_setting-9/CIA/config.py
-# CUDA_VISIBLE_DEVICES="2" python tools/train/train_LapSTFDiff.py --congfig_path config/LapSTFDiff/syy_setting-9/CIA/config_adapter.py
+# CUDA_VISIBLE_DEVICES="4" python tools/train/train_GPSTFDiff.py --congfig_path config/GPSTFDiff/syy_setting-9/CIA/config.py
+# CUDA_VISIBLE_DEVICES="2" python tools/train/train_GPSTFDiff.py --congfig_path config/GPSTFDiff/syy_setting-9/CIA/config_adapter.py
 import os
 
 # os.environ["CUDA_VISIBLE_DEVICES"] = "0"

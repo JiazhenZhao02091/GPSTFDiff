@@ -31,6 +31,8 @@ class RootMeanSquareError(nn.Module):
         if mask is not None:
              if mask.dim() == 3:
                 mask = mask.unsqueeze(1)
+             if mask.shape[1] == 1 and gt.shape[1] != 1:
+                mask = mask.expand(-1, gt.shape[1], -1, -1)
              valid_mask = mask > 0
              mse_value = ((gt[valid_mask] - pred[valid_mask]) ** 2).mean()
              return torch.sqrt(mse_value)

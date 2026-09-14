@@ -1,0 +1,19 @@
+dataset = "CIA"
+split = "full"
+data_root = "data/spatio_temporal_fusion"
+result_root = "results/sastf/syy_setting-9_self_train"
+weights_dir = "compare/SA-STF/weights"
+weight_path = "results/sastf/syy_setting-9/train_runs/CIA/checkpoints/final.pt"
+download_weights = False
+device = "cuda:0"
+
+limit = None
+epoch = 200
+timesteps = 100
+sampling_steps = 50
+ddim_eta = 0.0
+inner_channel = 64
+patch_size = 256
+max_data = 10000.0
+save_scale = 10000.0
+seed = 42

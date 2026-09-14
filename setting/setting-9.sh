@@ -130,7 +130,7 @@ main() {
     
     # 9.2:
     # run_command \
-    #     "python -m scripts.spatio_temparol_fusion.dataset_generation.data_generation --root_path data/spatio_temporal_fusion --src_data_prefix public_processing_data/format_data/crop_{}_{}_{}_{} --tar_data_prefix syy_setting-9-full --dataset_setting_congfig_path scripts/spatio_temparol_fusion/dataset_generation/dataset_config/syy_setting.py" \
+    #     "python -m scripts.spatio_temparol_fusion.dataset_generation.data_generation --root_path /home/zhaojiazhen/stf/data/spatio_temporal_fusion --src_data_prefix public_processing_data/format_data/crop_{}_{}_{}_{} --tar_data_prefix syy_setting-9-full --dataset_setting_congfig_path scripts/spatio_temparol_fusion/dataset_generation/dataset_config/syy_setting.py" \
     #     "生成full数据集" \
     #     "private_data/syy_setting-9-full"
     

@@ -67,7 +67,7 @@ class CrossMerge(torch.autograd.Function):
         return xs
 
 
-# optional model variants =============
+# these are for ablations =============
 class CrossScan_Ab_2direction(torch.autograd.Function):
     @staticmethod
     def forward(ctx, x: torch.Tensor):

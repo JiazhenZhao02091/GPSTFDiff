@@ -60,9 +60,9 @@ model = Diffusion(
     image_size=256,
 )
 
-checkpoint_path_x1_x2_x3 = "results/LapSTF/model4/CIA/results_x1_x2_x3/checkpoints/model_epoch_4999.pth"
-checkpoint_path_x2_x3 = "results/LapSTF/model4/CIA/results_x2_x3/checkpoints/model_epoch_4999.pth"
-checkpoint_path_x3 = "results/LapSTF/model4/CIA/results_x3/checkpoints/model_epoch_4999.pth"
+checkpoint_path_x1_x2_x3 = "/home/zhaojiazhen/workspace/STF/STF/results/LapSTF/model4/CIA/results_x1_x2_x3/checkpoints/model_epoch_4999.pth"
+checkpoint_path_x2_x3 = "/home/zhaojiazhen/workspace/STF/STF/results/LapSTF/model4/CIA/results_x2_x3/checkpoints/model_epoch_4999.pth"
+checkpoint_path_x3 = "/home/zhaojiazhen/workspace/STF/STF/results/LapSTF/model4/CIA/results_x3/checkpoints/model_epoch_4999.pth"
 
 metric_list = [
     RMSE(),

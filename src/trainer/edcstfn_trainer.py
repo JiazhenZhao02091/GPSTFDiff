@@ -70,7 +70,7 @@ class Trainer:
         self.model = model.to('cuda')
         self.encoder = AutoEncoder().to('cuda')
         ckpt = torch.load(
-            'src/trainer/ganstfm/autoencoder.pth'
+            '/home/zhaojiazhen/workspace/STF/STF/src/trainer/ganstfm/autoencoder.pth'
         )
         self.encoder.load_state_dict(ckpt['state_dict'])
         for param in self.encoder.parameters():

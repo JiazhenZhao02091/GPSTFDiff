@@ -4,7 +4,7 @@ import os
 os.environ['OMP_NUM_THREADS'] = '1'
 
 # from src.inferencer.dit_inferencer import Inferencer
-from src.inferencer.LapSTFDiff_lap_inferencer import Inferencer
+from src.inferencer.GPSTFDiff_lap_inferencer import Inferencer
 import argparse
 import importlib
 import warnings

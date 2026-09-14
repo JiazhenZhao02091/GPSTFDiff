@@ -1,10 +1,10 @@
-# LapSTFDiff: Laplacian-Guided Progressive Diffusion for Remote Sensing Spatiotemporal Fusion
+# GPSTFDiff: Laplacian-Guided Progressive Diffusion for Remote Sensing Spatiotemporal Fusion
 
 This repository contains the code used for remote sensing spatiotemporal fusion
-(STF) experiments, including the proposed `LapSTFDiff` model and the comparison
+(STF) experiments, including the proposed `GPSTFDiff` model and the comparison
 methods retained in this release.
 
-LapSTFDiff formulates multispectral STF as a conditional generative diffusion
+GPSTFDiff formulates multispectral STF as a conditional generative diffusion
 problem. It combines a change-aware conditional denoising network, Ada-UNet,
 with an inference-stage Laplacian-guided progressive sampler. Ada-UNet extracts
 multi-temporal change priors from coarse observations and a fine-resolution
@@ -16,7 +16,7 @@ structure before refining local textures and boundaries.
 
 ## Datasets
 
-The paper evaluates LapSTFDiff on Landsat-MODIS STF datasets:
+The paper evaluates GPSTFDiff on Landsat-MODIS STF datasets:
 
 - `CIA`: Coleambally Irrigation Area benchmark.
 - `LGC`: Lower Gwydir Catchment benchmark.
@@ -38,7 +38,7 @@ src/
   inferencer/           Inference loops
   logger/               Logging and metric trackers
   metrics/              Reconstruction and spectral metrics
-  model/                LapSTFDiff and comparison model implementations
+  model/                GPSTFDiff and comparison model implementations
   trainer/              Training loops
   utils/                General utilities
 tools/
@@ -65,8 +65,8 @@ If this repository is useful for your work, please cite the corresponding paper
 once the final bibliographic information is available:
 
 ```bibtex
-@article{zhao2026lapstfdiff,
-  title   = {LapSTFDiff: Laplacian-Guided Progressive Diffusion for Remote Sensing Spatiotemporal Fusion},
+@article{zhao2026gpstfdiff,
+  title   = {GPSTFDiff: Laplacian-Guided Progressive Diffusion for Remote Sensing Spatiotemporal Fusion},
   author  = {Zhao, Jiazhen},
   journal = {TBD},
   year    = {2026}

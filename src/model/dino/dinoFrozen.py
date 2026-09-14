@@ -20,7 +20,7 @@ def _get_backbone_dino():
         num_classes=0,
     )
     # load model weights
-    model_path="test/dinov3_model.pth"
+    model_path="/home/zhaojiazhen/workspace/STF/test/dinov3_model.pth"
     checkpoint = torch.load(model_path, map_location='cpu')
     backbone.load_state_dict(checkpoint)
     #TODO: 修改模型的输入通道

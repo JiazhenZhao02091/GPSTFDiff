@@ -61,7 +61,7 @@ model = Diffusion(
     mode="x1+x2+x3",
 )
 
-checkpoint_path = "results/LapSTF/model4/CIA/results_x1_x2_x3/checkpoints/model_epoch_8349.pth"
+checkpoint_path = "/home/zhaojiazhen/workspace/STF/STF/results/LapSTF/model4/CIA/results_x1_x2_x3/checkpoints/model_epoch_8349.pth"
 
 metric_list = [
     RMSE(),

@@ -46,5 +46,5 @@ def standardize_folder_names(root_path):
     print(f"\n处理完成，共修改了 {count} 个文件夹。")
 
 # --- 使用示例 ---
-target_dir = "data/spatio_temporal_fusion/AHB/raw_data/Landsat/"
+target_dir = "/home/zhaojiazhen/workspace/STF/STF/data/spatio_temporal_fusion/AHB/raw_data/Landsat/"
 standardize_folder_names(target_dir)

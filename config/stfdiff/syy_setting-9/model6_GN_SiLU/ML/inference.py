@@ -65,7 +65,7 @@ model = GaussianDiffusion(
     ddim_sampling_eta=1.0,
 )
 
-checkpoint_path = "results/stfdiff/syy_setting-9/model6_GN_SiLU/ML/results/checkpoints/best_model_epoch_699.pth"
+checkpoint_path = "/home/zhaojiazhen/workspace/STF/STF/results/stfdiff/syy_setting-9/model6_GN_SiLU/ML/results/checkpoints/best_model_epoch_699.pth"
 
 metric_list = [
     RMSE(),

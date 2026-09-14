@@ -65,7 +65,7 @@ model = GaussianDiffusion(
     ddim_sampling_eta=1.0,
 )
 
-checkpoint_path = "results/stfdiff/syy_setting-9/model6_GN_SiLU/McLeanv3/Adam_1e-3~PredNoiseNet_64_depth_3~timesteps_100~ddim_50~pred_x0/checkpoints/best_model_epoch_399.pth"
+checkpoint_path = "/home/zhaojiazhen/workspace/STF/STF/results/stfdiff/syy_setting-9/model6_GN_SiLU/McLeanv3/Adam_1e-3~PredNoiseNet_64_depth_3~timesteps_100~ddim_50~pred_x0/checkpoints/best_model_epoch_399.pth"
 
 metric_list = [
     RMSE(),

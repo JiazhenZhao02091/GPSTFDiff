@@ -31,5 +31,5 @@ def rename_files(directory):
 
 if __name__ == "__main__":
     # Change this path to the directory containing your images
-    target_directory = "data/spatio_temporal_fusion/Tianjin/raw_data/MODIS" 
+    target_directory = "/home/zhaojiazhen/workspace/STF/STF/data/spatio_temporal_fusion/Tianjin/raw_data/MODIS" 
     rename_files(target_directory)
