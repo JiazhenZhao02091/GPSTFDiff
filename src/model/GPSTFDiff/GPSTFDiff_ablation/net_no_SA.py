@@ -1,4 +1,6 @@
 import math
+import cv2
+import numpy as np
 from functools import partial
 
 import torch
@@ -19,14 +21,55 @@ def exists(x):
 def default(val, d):
     return val if exists(val) else (d() if callable(d) else d)
 
+def cv2_resize(tensor, size=None, scale_factor=None, mode="bilinear"):
+    h, w = tensor.shape[-2:]
+    if size is None:
+        if isinstance(scale_factor, (tuple, list)):
+            scale_h, scale_w = scale_factor
+        else:
+            scale_h = scale_w = scale_factor
+        out_h, out_w = int(h * float(scale_h)), int(w * float(scale_w))
+    else:
+        out_h, out_w = size
+        out_h, out_w = int(out_h), int(out_w)
+    interpolation = {
+        "nearest": cv2.INTER_NEAREST,
+        "linear": cv2.INTER_LINEAR,
+        "bilinear": cv2.INTER_LINEAR,
+        "bicubic": cv2.INTER_CUBIC,
+        "area": cv2.INTER_AREA,
+    }[mode]
+    device, dtype = tensor.device, tensor.dtype
+    array = tensor.detach().contiguous().cpu().float().numpy()
+    b, c, in_h, in_w = array.shape
+    array = array.reshape(b * c, in_h, in_w)
+    resized = np.stack([cv2.resize(img, (out_w, out_h), interpolation=interpolation) for img in array], axis=0)
+    resized = resized.reshape(b, c, out_h, out_w)
+    return torch.from_numpy(resized).to(device=device, dtype=dtype)
+
+
+class CV2Resize(nn.Module):
+    def __init__(self, size=None, scale_factor=None, mode="bilinear"):
+        super().__init__()
+        self.size = size
+        self.scale_factor = scale_factor
+        self.mode = mode
+
+    def forward(self, x):
+        return cv2_resize(x, size=self.size, scale_factor=self.scale_factor, mode=self.mode)
+
+
 def Upsample(dim, dim_out=None):
     return nn.Sequential(
-        nn.Upsample(scale_factor=2, mode="nearest"),
+        CV2Resize(scale_factor=2, mode="nearest"),
         nn.Conv2d(dim, default(dim_out, dim), 3, padding=1),
     )
 
 def Downsample(dim, dim_out=None):
-    return nn.Conv2d(dim, default(dim_out, dim), 4, 2, 1)
+    return nn.Sequential(
+        CV2Resize(scale_factor=0.5, mode="bilinear"),
+        nn.Conv2d(dim, default(dim_out, dim), 3, padding=1),
+    )
 
 
 # --------------------------

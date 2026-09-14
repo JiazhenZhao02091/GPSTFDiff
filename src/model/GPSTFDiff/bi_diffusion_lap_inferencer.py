@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import math
+import cv2
+import numpy as np
 from functools import partial
 from collections import namedtuple
 from einops import reduce
@@ -29,6 +31,35 @@ def exists(x):
 
 def identity(t, *args, **kwargs):
     return t
+
+def cv2_interpolate(tensor, size=None, scale_factor=None, mode="bilinear", align_corners=None):
+    del align_corners
+    h, w = tensor.shape[-2:]
+    if size is None:
+        if isinstance(scale_factor, (tuple, list)):
+            scale_h, scale_w = scale_factor
+        else:
+            scale_h = scale_w = scale_factor
+        out_h, out_w = int(h * float(scale_h)), int(w * float(scale_w))
+    else:
+        out_h, out_w = size
+        out_h, out_w = int(out_h), int(out_w)
+    if (out_h, out_w) == (h, w):
+        return tensor
+    interpolation = {
+        "nearest": cv2.INTER_NEAREST,
+        "linear": cv2.INTER_LINEAR,
+        "bilinear": cv2.INTER_LINEAR,
+        "bicubic": cv2.INTER_CUBIC,
+        "area": cv2.INTER_AREA,
+    }[mode]
+    device, dtype = tensor.device, tensor.dtype
+    array = tensor.detach().contiguous().cpu().float().numpy()
+    b, c, in_h, in_w = array.shape
+    array = array.reshape(b * c, in_h, in_w)
+    resized = np.stack([cv2.resize(img, (out_w, out_h), interpolation=interpolation) for img in array], axis=0)
+    resized = resized.reshape(b, c, out_h, out_w)
+    return torch.from_numpy(resized).to(device=device, dtype=dtype)
 
 def cosine_beta_schedule(timesteps, s=0.008):
     """
@@ -237,18 +268,18 @@ class BiDiffusionLapInferencer(nn.Module):
         if self.mode == 'x1+x2+x3':
             return coarse_img_01, coarse_img_02, coarse_img_03, fine_img_01, fine_img_03
         elif self.mode == 'x2+x3':
-            c1 = F.interpolate(coarse_img_01, scale_factor=0.5, mode='bilinear', align_corners=False)
-            c2 = F.interpolate(coarse_img_02, scale_factor=0.5, mode='bilinear', align_corners=False)
-            c3 = F.interpolate(coarse_img_03, scale_factor=0.5, mode='bilinear', align_corners=False)
-            f1 = F.interpolate(fine_img_01, scale_factor=0.5, mode='bilinear', align_corners=False)
-            f3 = F.interpolate(fine_img_03, scale_factor=0.5, mode='bilinear', align_corners=False)
+            c1 = cv2_interpolate(coarse_img_01, scale_factor=0.5, mode='bilinear', align_corners=False)
+            c2 = cv2_interpolate(coarse_img_02, scale_factor=0.5, mode='bilinear', align_corners=False)
+            c3 = cv2_interpolate(coarse_img_03, scale_factor=0.5, mode='bilinear', align_corners=False)
+            f1 = cv2_interpolate(fine_img_01, scale_factor=0.5, mode='bilinear', align_corners=False)
+            f3 = cv2_interpolate(fine_img_03, scale_factor=0.5, mode='bilinear', align_corners=False)
             return c1, c2, c3, f1, f3
         elif self.mode == 'x3':
-            c1 = F.interpolate(coarse_img_01, scale_factor=0.25, mode='bilinear', align_corners=False)
-            c2 = F.interpolate(coarse_img_02, scale_factor=0.25, mode='bilinear', align_corners=False)
-            c3 = F.interpolate(coarse_img_03, scale_factor=0.25, mode='bilinear', align_corners=False)
-            f1 = F.interpolate(fine_img_01, scale_factor=0.25, mode='bilinear', align_corners=False)
-            f3 = F.interpolate(fine_img_03, scale_factor=0.25, mode='bilinear', align_corners=False)
+            c1 = cv2_interpolate(coarse_img_01, scale_factor=0.25, mode='bilinear', align_corners=False)
+            c2 = cv2_interpolate(coarse_img_02, scale_factor=0.25, mode='bilinear', align_corners=False)
+            c3 = cv2_interpolate(coarse_img_03, scale_factor=0.25, mode='bilinear', align_corners=False)
+            f1 = cv2_interpolate(fine_img_01, scale_factor=0.25, mode='bilinear', align_corners=False)
+            f3 = cv2_interpolate(fine_img_03, scale_factor=0.25, mode='bilinear', align_corners=False)
             return c1, c2, c3, f1, f3
         return coarse_img_01, coarse_img_02, coarse_img_03, fine_img_01, fine_img_03
 
@@ -358,11 +389,11 @@ class BiDiffusionLapInferencer(nn.Module):
         if self.mode == "x3":
             x0_t = x3 * alpha_3
         elif self.mode == "x2+x3":
-            x3 = F.interpolate(x3, scale_factor=2, mode='bilinear', align_corners=False)
+            x3 = cv2_interpolate(x3, scale_factor=2, mode='bilinear', align_corners=False)
             x0_t = x3 * alpha_3 + x2 * alpha_2
         else:   # x1 + x2 + x3
-            x3 = F.interpolate(x3, scale_factor=4, mode='bilinear', align_corners=False)
-            x2 = F.interpolate(x2, scale_factor=2, mode='bilinear', align_corners=False)
+            x3 = cv2_interpolate(x3, scale_factor=4, mode='bilinear', align_corners=False)
+            x2 = cv2_interpolate(x2, scale_factor=2, mode='bilinear', align_corners=False)
             x0_t = x3 * alpha_3 + x2 * alpha_2 + x1 * alpha_1
 
         return x0_t
@@ -377,8 +408,8 @@ class BiDiffusionLapInferencer(nn.Module):
             if i == levels - 1:
                 pyramid.append(img)
                 break
-            down = F.interpolate(img, scale_factor=0.5, mode='bilinear', align_corners=False)
-            up = F.interpolate(down, size=img.shape[2:], mode='bilinear', align_corners=False)
+            down = cv2_interpolate(img, scale_factor=0.5, mode='bilinear', align_corners=False)
+            up = cv2_interpolate(down, size=img.shape[2:], mode='bilinear', align_corners=False)
             pyramid.append(img - up)
             img = down
         pyramid.append(img)
@@ -620,7 +651,7 @@ class BiDiffusionLapInferencer(nn.Module):
                 self.model = self.model_x2_x3
 
                 scale = 1
-                x_start_up = F.interpolate(x_start, scale_factor=2, mode='bilinear', align_corners=False)
+                x_start_up = cv2_interpolate(x_start, scale_factor=2, mode='bilinear', align_corners=False)
                 noise = torch.randn_like(x_start_up)
                 # noisy_fine_img_02 = noisy_fine_img_02 + sigma * scale
                 noisy_fine_img_02 = x_start_up + noise * (1 - alpha_next).sqrt() * scale
@@ -633,7 +664,7 @@ class BiDiffusionLapInferencer(nn.Module):
                 self.model = self.model_x1_x2_x3
 
                 scale = 1
-                x_start_up = F.interpolate(x_start, scale_factor=2, mode='bilinear', align_corners=False)
+                x_start_up = cv2_interpolate(x_start, scale_factor=2, mode='bilinear', align_corners=False)
                 noise = torch.randn_like(x_start_up)
                 noisy_fine_img_02 = x_start_up + noise * (1 - alpha_next).sqrt() * scale
                 continue
