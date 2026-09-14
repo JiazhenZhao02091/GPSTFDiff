@@ -1,18 +1,8 @@
-# GPSTFDiff: Laplacian-Guided Progressive Diffusion for Remote Sensing Spatiotemporal Fusion
+# GPSTFDiff: Gaussian Pyramid Guided Progressive Diffusion for Remote Sensing Spatiotemporal Fusion
 
 This repository contains the code used for remote sensing spatiotemporal fusion
 (STF) experiments, including the proposed `GPSTFDiff` model and the comparison
 methods retained in this release.
-
-GPSTFDiff formulates multispectral STF as a conditional generative diffusion
-problem. It combines a change-aware conditional denoising network, Ada-UNet,
-with an inference-stage Laplacian-guided progressive sampler. Ada-UNet extracts
-multi-temporal change priors from coarse observations and a fine-resolution
-reference image, uses FiLM-based feature modulation for conditional interaction,
-and introduces an Adaptive Multiscale Detail Refiner (AdaMDR) to preserve
-high-frequency structural details. The progressive sampler reorganizes reverse
-diffusion into a coarse-to-fine trajectory, recovering low-frequency radiometric
-structure before refining local textures and boundaries.
 
 ## Datasets
 
@@ -66,7 +56,7 @@ once the final bibliographic information is available:
 
 ```bibtex
 @article{zhao2026gpstfdiff,
-  title   = {GPSTFDiff: Laplacian-Guided Progressive Diffusion for Remote Sensing Spatiotemporal Fusion},
+  title   = {GPSTFDiff: Gaussian Pyramid Guided Progressive Diffusion for Remote Sensing Spatiotemporal Fusion},
   author  = {Zhao, Jiazhen},
   journal = {TBD},
   year    = {2026}
