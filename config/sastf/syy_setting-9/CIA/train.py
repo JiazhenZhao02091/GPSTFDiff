@@ -1,0 +1,20 @@
+dataset = "CIA"
+data_root = "data/spatio_temporal_fusion"
+output_root = "results/sastf/syy_setting-9/train_runs"
+device = "cuda:0"
+
+epochs = 200
+batch_size = 4
+num_workers = 4
+timesteps = 100
+sampling_steps = 50
+ddim_eta = 0.0
+inner_channel = 64
+lr = 1e-4
+grad_clip = 1.0
+save_every = 20
+max_data = 10000.0
+seed = 42
+resume = None
+max_steps = None
+perceptual = "vgg"
